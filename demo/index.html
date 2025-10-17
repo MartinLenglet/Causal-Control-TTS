@@ -24,6 +24,37 @@
     header{display:grid;gap:10px;margin-bottom:28px}
     header .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent));color:#ffffff;font-weight:700;font-size:12px;letter-spacing:.02em}
     h1{font-size:clamp(24px,3.2vw,36px);line-height:1.25;margin:4px 0 8px}
+    .authors {
+    background: linear-gradient(90deg, rgba(173, 61, 25, 0.15), rgba(22, 34, 58, 0.15));
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 8px 0 6px;
+    color: var(--ink);
+    box-shadow: 0 0 10px rgba(173, 61, 25, 0.15);
+    }
+
+    .authors h2 {
+    margin: 0 0 6px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    }
+
+    .authors strong {
+    color: var(--ink);
+    }
+
+    .affiliations {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    margin-top: 6px;
+    padding-left: 8px;
+    }
     .sub{color:var(--muted)}
     .panel{background:var(--panel);border:1px solid #1c2230;border-radius:var(--radius);padding:clamp(14px,2vw,20px)}
     .section{margin-top:28px}
@@ -78,9 +109,13 @@
 
       <div class="authors">
         <h2>Authors:</h2>
-        <strong>Martin Lenglet</strong> – Univ.&nbsp;Grenoble&nbsp;Alpes, CNRS, Grenoble-INP, GIPSA-lab, France / Atos, Échirolles, France<br/>
-        <strong>Olivier Perrotin</strong> – Univ.&nbsp;Grenoble&nbsp;Alpes, CNRS, Grenoble-INP, GIPSA-lab, France<br/>
-        <strong>Gérard Bailly</strong> – Univ.&nbsp;Grenoble&nbsp;Alpes, CNRS, Grenoble-INP, GIPSA-lab, France
+        <strong>Martin Lenglet</strong><sup>1,2</sup>,
+        <strong>Olivier Perrotin</strong><sup>1</sup>,
+        <strong>Gérard Bailly</strong><sup>1</sup>
+        <div class="affiliations">
+            <sup>1</sup> Univ.&nbsp;Grenoble&nbsp;Alpes, CNRS, Grenoble-INP, GIPSA-lab, France<br/>
+            <sup>2</sup> Atos, Échirolles, France
+        </div>
       </div>
 
       <p class="sub">
