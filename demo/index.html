@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Causal Control TTS — Demo</title>
+  <meta name="description" content="Demo page for the causal control methodology proposed in 'A Closer Look at Internal Representations of End-to-End Text-to-Speech Models: How is Phonetic and Acoustic Information Encoded?'." />
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --panel:#111318;
+      --ink:#e8eef2;
+      --muted:#a7b0b6;
+      --brand:#16223A;
+      --accent:#AD3D19;
+      --radius:14px;
+      --gap:16px;
+      --max:1100px;
+    }
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--max);margin:auto;padding:clamp(16px,3vw,32px)}
+    header{display:grid;gap:10px;margin-bottom:28px}
+    header .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent));color:#ffffff;font-weight:700;font-size:12px;letter-spacing:.02em}
+    h1{font-size:clamp(24px,3.2vw,36px);line-height:1.25;margin:4px 0 8px}
+    .sub{color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid #1c2230;border-radius:var(--radius);padding:clamp(14px,2vw,20px)}
+    .section{margin-top:28px}
+    h2{font-size:clamp(18px,2.6vw,24px);margin:0 0 8px}
+    .abstract{white-space:pre-wrap}
+    /* Tabs */
+    .tabs{margin-top:14px}
+    .tablist{display:flex;gap:8px;flex-wrap:wrap}
+    .tablist button {
+        appearance: none;
+        border: none;
+        background: none;
+        color: var(--brand);
+        opacity: 0.5;
+        padding: 10px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.2s ease;
+    }
+
+    .tablist button:hover {
+        opacity: 0.75;
+    }
+
+    .tablist button[aria-selected="true"] {
+        opacity: 1;
+        background-color: rgba(173, 61, 25, 0.5);
+        box-shadow: 0 0 0 2px rgba(173, 61, 25, 1);
+    }
+    .tabpanel{margin-top:12px}
+    .hidden{display:none}
+    video{width:100%;height:auto;border-radius:12px;border:1px solid #1f2a3a;outline: none}
+    .caption{font-size:14px;color:var(--muted);margin-top:8px}
+    /* Footer */
+    footer{margin:40px 0 20px;color:var(--muted);font-size:14px}
+    /* Kbd helper */
+    kbd{background:#0f1623;border:1px solid #243044;border-radius:6px;padding:1px 6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+    /* Responsive tweaks */
+    @media (prefers-color-scheme: light){
+      :root{--bg:#f8fafc;--panel:#ffffff;--ink:#0b1220;--muted:#5c6773}
+      body{background:var(--bg);color:var(--ink)}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="badge">Causal Control TTS — Demo</span>
+      <h1>A Closer Look at Internal Representations of End-to-End Text-to-Speech Models:<br/>How is Phonetic and Acoustic Information Encoded?</h1>
+      <p class="sub">
+        Demo page for the <strong>causal control</strong> methodology introduced in the paper.<br/>
+        Paper: <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5217280" target="_blank" rel="noopener">SSRN #5217280</a>
+      </p>
+    </header>
+
+    <!-- Abstract -->
+    <section class="panel">
+      <h2>Abstract</h2>
+      <p class="abstract">
+In recent years, deep neural architectures have demonstrated groundbreaking performances in various speech processing areas, including Text-To-Speech (TTS). Models have grown larger, including more layers and millions of trainable parameters to achieve near-natural synthesis, at the expense of interpretability of computed intermediate representations. However, the statistical learning performed by these neural models offers a valuable source of information about language and speech production. The present study aims to develop statistical tools to narrow the gap between these advanced processing techniques and speech sciences. By linearly probing phonetic and acoustic features in model representations, the proposed methods help to understand how neural TTS are able to organize speech information in an unsupervised manner and provide novel insights on phonetic regularities captured through statistical learning on massive datasets that extend beyond human expertise. This study takes a step further by leveraging these insights to design emerging control mechanisms for speech synthesis models, without requiring additional data or training processes. The proposed control is evaluated across a variety of acoustic and prosodic parameters relevant to the perception of speech expressivity. The promising performance of these control mechanisms underscores the value of employing explainability methods in a broader range of domains, enabling neural models to be viewed not merely as tools, but as frameworks that invite a deeper exploration of their underlying mechanisms and structures. Such an approach fosters more comprehensive insights that can improve both the technology and its applications.
+      </p>
+    </section>
+
+    <!-- Linear Probing Section -->
+    <section class="section panel" id="linear-probing">
+      <h2>Linear probing in Neural TTS</h2>
+      <p class="sub">
+        Visualizations show predictions of acoustic features across successive layers of a <strong>FastSpeech2</strong> model using linear probes. More information in <strong>Section&nbsp;3</strong> of the paper.
+        Use the tabs below to switch between <em>F0 (fundamental frequency)</em> and <em>Formants</em>.
+      </p>
+
+      <div class="tabs" role="tablist" aria-label="Linear probing videos">
+        <div class="tablist">
+          <button id="tab-f0" role="tab" aria-selected="true" aria-controls="panel-f0">F0 evolution</button>
+          <button id="tab-formants" role="tab" aria-selected="false" aria-controls="panel-formants">Formants evolution</button>
+        </div>
+
+        <div id="panel-f0" class="tabpanel" role="tabpanel" aria-labelledby="tab-f0">
+          <video controls preload="metadata" poster="" src="./media/video/video_f0_fastspeech_layers.mp4">
+            Sorry, your browser doesn’t support embedded videos. You can <a href="./media/video/video_f0_fastspeech_layers.mp4">download the F0 video</a>.
+          </video>
+          <div class="caption">
+            Predicted <strong>F0</strong> across FastSpeech2 layers using linear probes.
+          </div>
+        </div>
+
+        <div id="panel-formants" class="tabpanel hidden" role="tabpanel" aria-labelledby="tab-formants">
+          <video controls preload="metadata" poster="" src="./media/video/video_formant_fastspeech_layers.mp4">
+            Sorry, your browser doesn’t support embedded videos. You can <a href="./media/video/video_formant_fastspeech_layers.mp4">download the Formants video</a>.
+          </video>
+          <div class="caption">
+            Predicted <strong>formants (F1–F3)</strong> across FastSpeech2 layers using linear probes.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- (Optional) Placeholder for future sections, e.g., causal control demos -->
+    <!--
+    <section class="section panel" id="causal-control">
+      <h2>Causal control demos</h2>
+      <p class="sub">Coming soon: controllable synthesis for Tacotron2 and FastSpeech2 (prosody, duration, energy, F0…).</p>
+    </section>
+    -->
+
+    <footer>
+      © 2025 Martin Lenglet, Olivier Perrotin, Gérard Bailly — Demo page for research purposes (CC BY-NC 4.0).
+    </footer>
+  </div>
+
+  <script>
+    (function(){
+      const tabs = [
+        {btn:'#tab-f0', panel:'#panel-f0'},
+        {btn:'#tab-formants', panel:'#panel-formants'}
+      ];
+      function select(idx){
+        tabs.forEach((t,i)=>{
+          const b = document.querySelector(t.btn);
+          const p = document.querySelector(t.panel);
+          const on = i===idx;
+          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          p.classList.toggle('hidden', !on);
+          p.setAttribute('tabindex', on ? '0' : '-1');
+        });
+      }
+      tabs.forEach((t,i)=>{
+        const b = document.querySelector(t.btn);
+        b.addEventListener('click', ()=>select(i));
+        b.addEventListener('keydown', (e)=>{
+          if(e.key === 'ArrowRight'){ select((i+1)%tabs.length); }
+          if(e.key === 'ArrowLeft'){ select((i-1+tabs.length)%tabs.length); }
+        });
+      });
+      // Deep-linking support (?tab=f0 or #f0)
+      const q = new URLSearchParams(location.search).get('tab') || location.hash.replace('#','');
+      if(q === 'formants') select(1); else select(0);
+    })();
+  </script>
+</body>
+</html>
