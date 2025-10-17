@@ -25,35 +25,35 @@
     header .badge{display:inline-block;padding:4px 10px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--accent));color:#ffffff;font-weight:700;font-size:12px;letter-spacing:.02em}
     h1{font-size:clamp(24px,3.2vw,36px);line-height:1.25;margin:4px 0 8px}
     .authors {
-    background: linear-gradient(90deg, rgba(173, 61, 25, 0.15), rgba(22, 34, 58, 0.15));
-    border-left: 3px solid var(--accent);
-    padding: 10px 14px;
-    border-radius: 8px;
-    margin: 8px 0 6px;
-    color: var(--ink);
-    box-shadow: 0 0 10px rgba(173, 61, 25, 0.15);
+        background: linear-gradient(90deg, rgba(173, 61, 25, 0.15), rgba(22, 34, 58, 0.15));
+        border-left: 3px solid var(--accent);
+        padding: 10px 14px;
+        border-radius: 8px;
+        margin: 8px 0 6px;
+        color: var(--ink);
+        box-shadow: 0 0 10px rgba(173, 61, 25, 0.15);
     }
 
     .authors h2 {
-    margin: 0 0 6px 0;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+        margin: 0 0 6px 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
     }
 
     .authors strong {
-    color: var(--ink);
+        color: var(--ink);
     }
 
     .affiliations {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.4;
-    margin-bottom: 10px;
-    margin-top: 6px;
-    padding-left: 8px;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.4;
+        margin-bottom: 10px;
+        margin-top: 6px;
+        padding-left: 8px;
     }
     .sub{color:var(--muted)}
     .panel{background:var(--panel);border:1px solid #1c2230;border-radius:var(--radius);padding:clamp(14px,2vw,20px)}
@@ -99,6 +99,62 @@
       :root{--bg:#f8fafc;--panel:#ffffff;--ink:#0b1220;--muted:#5c6773}
       body{background:var(--bg);color:var(--ink)}
     }
+    /* --- Pauses section styles --- */
+    .figure {
+        background: var(--panel);
+        border: 1px solid #1c2230;
+        border-radius: var(--radius);
+        padding: 12px;
+    }
+    .figure object,
+    .figure iframe,
+    .figure img {
+        display: block;
+        max-width: 100%;
+        height: auto; /* keeps aspect ratio */
+        /* border: 1px solid #1f2a3a; */
+        /* border-radius: 10px; */
+        background: #0f1320;
+        margin: 0 auto;
+    }
+    .figcaption {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 8px;
+    }
+
+    /* Audio cards */
+    .audio-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .audio-card {
+        background: linear-gradient(90deg, rgba(173,61,25,0.08), rgba(22,34,58,0.08));
+        border: 1px solid #1c2230;
+        border-radius: 12px;
+        padding: 12px;
+    }
+    .audio-card h3 {
+        margin: 0 0 6px 0;
+        font-size: 15px;
+        color: var(--ink);
+    }
+    .audio-card p {
+        margin: 0 0 8px 0;
+        font-size: 14px;
+        color: var(--muted);
+    }
+    .audio-card audio {
+        width: 100%;
+    }
+
+    @media (min-width: 700px) {
+    .audio-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
   </style>
 </head>
 <body>
@@ -134,9 +190,9 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
 
     <!-- Linear Probing Section -->
     <section class="section panel" id="linear-probing">
-      <h2>Linear probing in Neural TTS</h2>
+      <h2>Linear probing in Neural TTS (Section&nbsp;3)</h2>
       <p class="sub">
-        Visualizations show predictions of acoustic features across successive layers of a <strong>FastSpeech2</strong> model using linear probes. More information in <strong>Section&nbsp;3</strong> of the paper.
+        Visualizations show predictions of acoustic features across successive layers of a <strong>FastSpeech2</strong> model using linear probes.
         Use the tabs below to switch between <em>F0 (fundamental frequency)</em> and <em>Formants</em>.
       </p>
 
@@ -166,13 +222,50 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
       </div>
     </section>
 
-    <!-- (Optional) Placeholder for future sections, e.g., causal control demos -->
-    <!--
-    <section class="section panel" id="causal-control">
-      <h2>Causal control demos</h2>
-      <p class="sub">Coming soon: controllable synthesis for Tacotron2 and FastSpeech2 (prosody, duration, energy, F0…).</p>
+    <!-- Categorical control: pauses -->
+    <section class="section panel" id="categorical-pauses">
+    <h2>Categorical control — the case of pauses (Section&nbsp;5.3)</h2>
+    <p class="sub">
+        We illustrate <strong>causal control</strong> for <em>pause insertion</em> and <em>duration control</em>.  
+        The goal is to match a longer target duration <em>without</em> degrading naturalness: instead of naive time-stretching,
+        we combine a <strong>duration bias</strong> with a <strong>pause control bias</strong> to introduce linguistically plausible silences.
+    </p>
+
+    <figure class="figure" aria-labelledby="fig-pauses-caption">
+        <img src="./media/img/pause_insertion_example_annotated.png" alt="Visualization of the difference between naive stretching and the embedding bias duration control">
+        <figcaption class="figcaption" id="fig-pauses-caption">
+            Figure: Visualization of the difference between naive stretching and the embedding bias duration control.
+        </figcaption>
+    </figure>
+
+    <!-- Audio comparisons -->
+    <div class="audio-grid" style="margin-top:14px">
+        <div class="audio-card">
+        <h3>Unbiased synthesis</h3>
+        <p>Reference synthesis from the model without any control.</p>
+        <audio controls preload="metadata" src="./media/audio/audio_audace_neutral.wav">
+            Your browser doesn’t support the audio element. <a href="./media/audio/audio_audace_neutral.wav">Download</a>.
+        </audio>
+        </div>
+
+        <div class="audio-card">
+        <h3>Duration stretched</h3>
+        <p>Baseline audio stretched to match the target duration (x1.38).</p>
+        <audio controls preload="metadata" src="./media/audio/audio_audace_stretch.wav">
+            Your browser doesn’t support the audio element. <a href="./media/audio/audio_audace_stretch.wav">Download</a>.
+        </audio>
+        </div>
+
+        <div class="audio-card">
+        <h3>Duration&nbsp;+&nbsp;pause embedding biases</h3>
+        <p>Same target duration achieved via a combination of duration bias and categorical pause control.</p>
+        <audio controls preload="metadata" src="./media/audio/audio_audace_combined_control.wav">
+            Your browser doesn’t support the audio element. <a href="./media/audio/audio_audace_combined_control.wav">Download</a>.
+        </audio>
+        </div>
+    </div>
     </section>
-    -->
+
 
     <footer>
       © 2025 Martin Lenglet, Olivier Perrotin, Gérard Bailly — Demo page for research purposes (CC BY-NC 4.0).
