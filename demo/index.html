@@ -222,6 +222,53 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
       </div>
     </section>
 
+    <!-- Continuous control of acoustic parameters -->
+    <section class="section panel" id="continuous-control">
+    <h2>Continuous control of acoustic parameters (Section&nbsp;5.1)</h2>
+    <p class="sub">
+        The continuous control is <strong>applied at the last layer of the encoder</strong> for all features presented here.
+        Examples shown with a <strong>FastSpeech2</strong> model (prosodic predictor, prosodic embeddings, and phonetic predictor). All examples illustrate the maximum control range with targets set to +/-2 standard deviations of the selected acoustic feature. 
+    </p>
+
+    <!-- Feature tabs -->
+    <div class="tabs" role="tablist" aria-label="Continuous control features">
+        <div class="tablist">
+        <button id="tab-cc-f0" role="tab" aria-selected="true" aria-controls="panel-cc-f0">f0</button>
+        <!-- Future features: Energy, Duration, Spectral tilt, etc. -->
+        </div>
+
+        <!-- F0 panel -->
+        <div id="panel-cc-f0" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-f0">
+
+        <div class="audio-grid">
+            <div class="audio-card">
+            <h3>Low f0</h3>
+            <p>Target f0 control: −2&nbsp;std</p>
+            <audio controls preload="metadata" src="./media/audio/audio_devanture_low_pitch.wav">
+                Your browser doesn’t support the audio element. <a href="./media/audio/audio_devanture_low_pitch.wav">Download</a>.
+            </audio>
+            </div>
+
+            <div class="audio-card">
+            <h3>Neutral f0</h3>
+            <p>Reference with no deviation from the baseline target.</p>
+            <audio controls preload="metadata" src="./media/audio/audio_devanture_normal_pitch.wav">
+                Your browser doesn’t support the audio element. <a href="./media/audio/audio_devanture_normal_pitch.wav">Download</a>.
+            </audio>
+            </div>
+
+            <div class="audio-card">
+            <h3>High f0 (target: +2&nbsp;std)</h3>
+            <p>Target f0 control: +2&nbsp;std</p>
+            <audio controls preload="metadata" src="./media/audio/audio_devanture_high_pitch.wav">
+                Your browser doesn’t support the audio element. <a href="./media/audio/audio_devanture_high_pitch.wav">Download</a>.
+            </audio>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
     <!-- Categorical control: pauses -->
     <section class="section panel" id="categorical-pauses">
     <h2>Categorical control — the case of pauses (Section&nbsp;5.3)</h2>
@@ -299,6 +346,36 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
       // Deep-linking support (?tab=f0 or #f0)
       const q = new URLSearchParams(location.search).get('tab') || location.hash.replace('#','');
       if(q === 'formants') select(1); else select(0);
+    })();
+
+    // Generic tab initializer for any .tablist/tabpanel group on the page
+    (function initAllTablists(){
+        document.querySelectorAll('.tabs').forEach((tabsRoot) => {
+        const buttons = tabsRoot.querySelectorAll('[role="tab"]');
+        const panels  = tabsRoot.querySelectorAll('[role="tabpanel"]');
+
+        function selectTab(btn) {
+            buttons.forEach(b => b.setAttribute('aria-selected', b === btn ? 'true' : 'false'));
+            panels.forEach(p => {
+            const on = p.id === btn.getAttribute('aria-controls');
+            p.classList.toggle('hidden', !on);
+            p.setAttribute('tabindex', on ? '0' : '-1');
+            });
+        }
+
+        buttons.forEach((btn) => {
+            btn.addEventListener('click', () => selectTab(btn));
+            btn.addEventListener('keydown', (e) => {
+            const idx = Array.from(buttons).indexOf(btn);
+            if (e.key === 'ArrowRight') selectTab(buttons[(idx + 1) % buttons.length]);
+            if (e.key === 'ArrowLeft')  selectTab(buttons[(idx - 1 + buttons.length) % buttons.length]);
+            });
+        });
+
+        // Initialize current group to the first tab that has aria-selected="true"
+        const initial = Array.from(buttons).find(b => b.getAttribute('aria-selected') === 'true') || buttons[0];
+        if (initial) selectTab(initial);
+        });
     })();
   </script>
 </body>
