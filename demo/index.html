@@ -198,8 +198,8 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
 
       <div class="tabs" role="tablist" aria-label="Linear probing videos">
         <div class="tablist">
-          <button id="tab-f0" role="tab" aria-selected="true" aria-controls="panel-f0">F0 evolution</button>
-          <button id="tab-formants" role="tab" aria-selected="false" aria-controls="panel-formants">Formants evolution</button>
+          <button id="tab-f0" role="tab" aria-selected="true" aria-controls="panel-f0">f0 prediction</button>
+          <button id="tab-formants" role="tab" aria-selected="false" aria-controls="panel-formants">Formants prediction</button>
         </div>
 
         <div id="panel-f0" class="tabpanel" role="tabpanel" aria-labelledby="tab-f0">
@@ -226,7 +226,7 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
     <section class="section panel" id="continuous-control">
     <h2>Continuous control of acoustic parameters (Section&nbsp;5.1)</h2>
     <p class="sub">
-        The continuous control is <strong>applied at the last layer of the encoder</strong> for all features presented here.
+        The continuous control is applied at the <strong>last layer of the encoder for all prosodic features (f0, Energy, Duration and Spectral Tilt)</strong> and <strong>at the last layer of the decoder</strong> for all <strong>spectral features (f1, f2, f3, Spectral Balance and Spectral Center of Gravity)</strong>.
         Examples shown with a <strong>FastSpeech2</strong> model (prosodic predictor, prosodic embeddings, and phonetic predictor). All examples illustrate the maximum control range with targets set to +/-2 standard deviations of the selected acoustic feature. 
     </p>
 
@@ -234,37 +234,526 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
     <div class="tabs" role="tablist" aria-label="Continuous control features">
         <div class="tablist">
         <button id="tab-cc-f0" role="tab" aria-selected="true" aria-controls="panel-cc-f0">f0</button>
+        <button id="tab-cc-energy" role="tab" aria-selected="false" aria-controls="panel-cc-energy">Energy</button>
+        <button id="tab-cc-duration" role="tab" aria-selected="false" aria-controls="panel-cc-duration">Duration</button>
+        <button id="tab-cc-st" role="tab" aria-selected="false" aria-controls="panel-cc-st">Spectral Tilt</button>
+        <button id="tab-cc-f1" role="tab" aria-selected="false" aria-controls="panel-cc-f1">f1</button>
+        <button id="tab-cc-f2" role="tab" aria-selected="false" aria-controls="panel-cc-f2">f2</button>
+        <button id="tab-cc-f3" role="tab" aria-selected="false" aria-controls="panel-cc-f3">f3</button>
+        <button id="tab-cc-sb" role="tab" aria-selected="false" aria-controls="panel-cc-sb">Spectral Balance</button>
+        <button id="tab-cc-cog" role="tab" aria-selected="false" aria-controls="panel-cc-cog">Spectral Center of Gravity</button>
         <!-- Future features: Energy, Duration, Spectral tilt, etc. -->
         </div>
 
         <!-- F0 panel -->
         <div id="panel-cc-f0" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-f0">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f0</h3>
+                <p>Target f0 control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f0/audio_devanture_low_pitch.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/audio_devanture_low_pitch.wav">Download</a>.
+                </audio>
+                </div>
 
-        <div class="audio-grid">
-            <div class="audio-card">
-            <h3>Low f0</h3>
-            <p>Target f0 control: −2&nbsp;std</p>
-            <audio controls preload="metadata" src="./media/audio/audio_devanture_low_pitch.wav">
-                Your browser doesn’t support the audio element. <a href="./media/audio/audio_devanture_low_pitch.wav">Download</a>.
-            </audio>
+                <div class="audio-card">
+                <h3>Neutral f0</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f0/audio_devanture_normal_pitch.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/audio_devanture_normal_pitch.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f0</h3>
+                <p>Target f0 control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f0/audio_devanture_high_pitch.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/audio_devanture_high_pitch.wav">Download</a>.
+                </audio>
+                </div>
             </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f0</h3>
+                <p>Target f0 control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f0/TEST00024_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/TEST00024_syn_low.wav">Download</a>.
+                </audio>
+                </div>
 
-            <div class="audio-card">
-            <h3>Neutral f0</h3>
-            <p>Reference with no deviation from the baseline target.</p>
-            <audio controls preload="metadata" src="./media/audio/audio_devanture_normal_pitch.wav">
-                Your browser doesn’t support the audio element. <a href="./media/audio/audio_devanture_normal_pitch.wav">Download</a>.
-            </audio>
+                <div class="audio-card">
+                <h3>Neutral f0</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f0/TEST00024_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/TEST00024_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f0</h3>
+                <p>Target f0 control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f0/TEST00024_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/TEST00024_syn_high.wav">Download</a>.
+                </audio>
+                </div>
             </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f0</h3>
+                <p>Target f0 control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f0/TEST00025_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/TEST00025_syn_low.wav">Download</a>.
+                </audio>
+                </div>
 
-            <div class="audio-card">
-            <h3>High f0 (target: +2&nbsp;std)</h3>
-            <p>Target f0 control: +2&nbsp;std</p>
-            <audio controls preload="metadata" src="./media/audio/audio_devanture_high_pitch.wav">
-                Your browser doesn’t support the audio element. <a href="./media/audio/audio_devanture_high_pitch.wav">Download</a>.
-            </audio>
+                <div class="audio-card">
+                <h3>Neutral f0</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f0/TEST00025_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/TEST00025_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f0</h3>
+                <p>Target f0 control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f0/TEST00025_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f0/TEST00025_syn_high.wav">Download</a>.
+                </audio>
+                </div>
             </div>
         </div>
+
+        <!-- Energy panel -->
+        <div id="panel-cc-energy" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-energy">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Energy</h3>
+                <p>Target Energy control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/energy/TEST00020_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/energy/TEST00020_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Energy</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/energy/TEST00020_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/energy/TEST00020_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Energy</h3>
+                <p>Target Energy control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/energy/TEST00020_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/energy/TEST00020_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Energy</h3>
+                <p>Target Energy control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/energy/TEST00022_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/energy/TEST00022_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Energy</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/energy/TEST00022_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/energy/TEST00022_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Energy</h3>
+                <p>Target Energy control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/energy/TEST00022_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/energy/TEST00022_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- duration panel -->
+        <div id="panel-cc-duration" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-duration">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Speaking Rate</h3>
+                <p>Target Duration control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/duration/audio_recit_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/duration/audio_recit_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Speaking Rate</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/duration/audio_recit_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/duration/audio_recit_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Speaking Rate</h3>
+                <p>Target Duration control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/duration/audio_recit_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/duration/audio_recit_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Speaking Rate</h3>
+                <p>Target Duration control: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/duration/audio_tapis_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/duration/audio_tapis_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Speaking Rate</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/duration/audio_tapis_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/duration/audio_tapis_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Speaking Rate</h3>
+                <p>Target Duration control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/duration/audio_tapis_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/duration/audio_tapis_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- spectral tilt panel -->
+        <div id="panel-cc-st" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-st">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Spectral Tilt</h3>
+                <p>Target Spectral Tilt: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/st/TEST00044_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/st/TEST00044_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Spectral Tilt</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/st/TEST00044_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/st/TEST00044_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Spectral Tilt</h3>
+                <p>Target Spectral Tilt: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/st/TEST00044_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/st/TEST00044_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Spectral Tilt</h3>
+                <p>Target Spectral Tilt: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/st/TEST00045_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/st/TEST00045_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Spectral Tilt</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/st/TEST00045_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/st/TEST00045_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Spectral Tilt</h3>
+                <p>Target Duration control: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/st/TEST00045_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/st/TEST00045_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- f1 panel -->
+        <div id="panel-cc-f1" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-f1">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f1</h3>
+                <p>Target f1: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f1/TEST00027_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f1/TEST00027_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral f1</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f1/TEST00027_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f1/TEST00027_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f1</h3>
+                <p>Target f1: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f1/TEST00027_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f1/TEST00027_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f1</h3>
+                <p>Target f1: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f1/TEST00028_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f1/TEST00028_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral f1</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f1/TEST00028_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f1/TEST00028_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f1</h3>
+                <p>Target f1: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f1/TEST00028_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f1/TEST00028_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- f2 panel -->
+        <div id="panel-cc-f2" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-f2">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f2</h3>
+                <p>Target f2: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f2/TEST00032_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f2/TEST00032_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral f2</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f2/TEST00032_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f2/TEST00032_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f2</h3>
+                <p>Target f2: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f2/TEST00032_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f2/TEST00032_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f2</h3>
+                <p>Target f2: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f2/TEST00036_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f2/TEST00036_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral f2</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f2/TEST00036_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f2/TEST00036_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f2</h3>
+                <p>Target f2: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f2/TEST00036_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f2/TEST00036_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- f3 panel -->
+        <div id="panel-cc-f3" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-f3">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f3</h3>
+                <p>Target f3: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f3/TEST00039_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f3/TEST00039_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral f3</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f3/TEST00039_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f3/TEST00039_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f3</h3>
+                <p>Target f3: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f3/TEST00039_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f3/TEST00039_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low f3</h3>
+                <p>Target f3: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f3/TEST00041_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f3/TEST00041_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral f3</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/f3/TEST00041_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f3/TEST00041_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High f3</h3>
+                <p>Target f3: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/f3/TEST00041_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/f3/TEST00041_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spectral Balance panel -->
+        <div id="panel-cc-sb" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-sb">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Spectral Balance</h3>
+                <p>Target Spectral Balance: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/sb/TEST00042_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/sb/TEST00042_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Spectral Balance</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/sb/TEST00042_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/sb/TEST00042_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Spectral Balance</h3>
+                <p>Target Spectral Balance: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/sb/TEST00042_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/sb/TEST00042_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Spectral Balance</h3>
+                <p>Target Spectral Balance: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/sb/TEST00043_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/sb/TEST00043_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Spectral Balance</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/sb/TEST00043_syn_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/sb/TEST00043_syn_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Spectral Balance</h3>
+                <p>Target Spectral Balance: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/sb/TEST00043_syn_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/sb/TEST00043_syn_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center of Gravity panel -->
+        <div id="panel-cc-cog" class="tabpanel" role="tabpanel" aria-labelledby="tab-cc-cog">
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Center of Gravity</h3>
+                <p>Target Center of Gravity: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/cog/TEST00007_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/cog/TEST00007_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Center of Gravity</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/cog/audio_inconnu_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/cog/audio_inconnu_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Center of Gravity</h3>
+                <p>Target Center of Gravity: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/cog/TEST00007_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/cog/TEST00007_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
+            <div class="audio-grid">
+                <div class="audio-card">
+                <h3>Low Center of Gravity</h3>
+                <p>Target Center of Gravity: −2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/cog/TEST00008_syn_low.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/cog/TEST00008_syn_low.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>Neutral Center of Gravity</h3>
+                <p>Reference with no deviation from the baseline target.</p>
+                <audio controls preload="metadata" src="./media/audio/cog/audio_main_neutral.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/cog/audio_main_neutral.wav">Download</a>.
+                </audio>
+                </div>
+
+                <div class="audio-card">
+                <h3>High Center of Gravity</h3>
+                <p>Target Center of Gravity: +2&nbsp;std</p>
+                <audio controls preload="metadata" src="./media/audio/cog/TEST00008_high.wav">
+                    Your browser doesn’t support the audio element. <a href="./media/audio/cog/TEST00008_high.wav">Download</a>.
+                </audio>
+                </div>
+            </div>
         </div>
     </div>
     </section>
@@ -288,27 +777,27 @@ In recent years, deep neural architectures have demonstrated groundbreaking perf
     <!-- Audio comparisons -->
     <div class="audio-grid" style="margin-top:14px">
         <div class="audio-card">
-        <h3>Unbiased synthesis</h3>
-        <p>Reference synthesis from the model without any control.</p>
-        <audio controls preload="metadata" src="./media/audio/audio_audace_neutral.wav">
-            Your browser doesn’t support the audio element. <a href="./media/audio/audio_audace_neutral.wav">Download</a>.
-        </audio>
-        </div>
+            <h3>Unbiased synthesis</h3>
+            <p>Reference synthesis from the model without any control.</p>
+            <audio controls preload="metadata" src="./media/audio/mixed_control/audio_audace_neutral.wav">
+                Your browser doesn’t support the audio element. <a href="./media/audio/mixed_control/audio_audace_neutral.wav">Download</a>.
+            </audio>
+            </div>
 
-        <div class="audio-card">
-        <h3>Duration stretched</h3>
-        <p>Baseline audio stretched to match the target duration (x1.38).</p>
-        <audio controls preload="metadata" src="./media/audio/audio_audace_stretch.wav">
-            Your browser doesn’t support the audio element. <a href="./media/audio/audio_audace_stretch.wav">Download</a>.
-        </audio>
-        </div>
+            <div class="audio-card">
+            <h3>Duration stretched</h3>
+            <p>Baseline audio stretched to match the target duration (x1.38).</p>
+            <audio controls preload="metadata" src="./media/audio/mixed_control/audio_audace_stretch.wav">
+                Your browser doesn’t support the audio element. <a href="./media/audio/mixed_control/audio_audace_stretch.wav">Download</a>.
+            </audio>
+            </div>
 
-        <div class="audio-card">
-        <h3>Duration&nbsp;+&nbsp;pause embedding biases</h3>
-        <p>Same target duration achieved via a combination of duration bias and categorical pause control.</p>
-        <audio controls preload="metadata" src="./media/audio/audio_audace_combined_control.wav">
-            Your browser doesn’t support the audio element. <a href="./media/audio/audio_audace_combined_control.wav">Download</a>.
-        </audio>
+            <div class="audio-card">
+            <h3>Duration&nbsp;+&nbsp;pause embedding biases</h3>
+            <p>Same target duration (x1.38) achieved via a combination of duration bias and categorical pause control.</p>
+            <audio controls preload="metadata" src="./media/audio/mixed_control/audio_audace_combined_control.wav">
+                Your browser doesn’t support the audio element. <a href="./media/audio/mixed_control/audio_audace_combined_control.wav">Download</a>.
+            </audio>
         </div>
     </div>
     </section>
