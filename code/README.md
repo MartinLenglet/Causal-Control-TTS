@@ -9,6 +9,7 @@ This repository provides the analysis pipeline used in the paper, across **three
 ## Repository structure
 
 - `python/` — reference modules and patch instructions for FastSpeech2 (intermediate states + embedding bias).
+  - `python/results_step_1/` — **example output of Step 1 (Python)** for a single utterance, provided as a reference to validate file formats, naming conventions, and data shapes.
 - `matlab/` — all MATLAB scripts (entry scripts + helpers). **All model paths are configured in one file:** `matlab/config_paths.m`.
 - `praat/` — Praat scripts + list files to compute acoustic parameters.
 
@@ -41,6 +42,14 @@ Output of Step 1 (per model output folder):
 - `TEST%05d_syn_enc_emb_by_layer.mat`
 - `TEST%05d_syn_dec_emb_by_layer.mat`
 - `<alignment csv>` (filename set by `cfg.alignment_csv_filename` in Step 2)
+
+An **example of the expected output of Step 1** (single utterance, fully compliant with the pipeline) is provided in:
+- `python/results_step_1/`
+
+This example can be used to:
+- inspect the expected `.mat` variable names and shapes,
+- verify alignment/duration export format,
+- run **Step 2 (MATLAB)** and **Step 3 (Praat)** without first running FastSpeech2.
 
 ---
 

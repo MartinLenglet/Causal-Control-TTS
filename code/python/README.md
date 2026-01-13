@@ -7,6 +7,13 @@ This repo **does not** vendor a full TTS codebase. We used a fork of FastSpeech2
 This folder provides:
 - a reference implementation of the **EmbeddingBias** modules (Step 5)
 - **snippets** showing where we modified FastSpeech2 to export intermediate states (Step 1)
+- **an example of the expected output of Step 1**, provided in the folder `results_step_1/`
+
+The `results_step_1/` folder contains a **single-utterance, fully compliant example**
+of the artifacts produced at the end of Step 1 (Python), and can be used to:
+- verify file naming conventions,
+- check `.mat` variable names and shapes,
+- test the MATLAB and Praat pipelines without running FastSpeech2.
 
 ## Step 1 — Export intermediate states + durations
 
@@ -44,6 +51,8 @@ If your tensors are `[L, B, T, D]`, a typical conversion for a single utterance 
 - select batch index `b=0`
 - permute to `[D, T, L]`
 
+See `FastSpeech2/synthesize.py`.
+
 ### 1.4 Export an alignment/duration file for Step 2
 
 Step 2 (MATLAB) needs an alignment export to build `TEST%05d_seg.csv`.
@@ -57,6 +66,40 @@ Because this format is codebase-specific, **adapt `matlab/main_compute_seg_files
 
 The expected filename is set in `matlab/config_paths.m`:
 - `cfg.alignment_csv_filename`
+
+See `FastSpeech2/synthesize.py`.
+
+#### How to use in your inference loop
+
+Right after you call the model:
+
+```
+from FastSpeech2.synthesize import export_from_forward
+
+with torch.no_grad():
+    forward_out = model(
+        speakers, texts, src_lens, max_src_len,
+        # ... other optional args ...
+    )
+
+export_from_forward(
+    forward_out,
+    out_dir="path/to/exports",                 # model output folder
+    basename="TEST00001",                      # utterance ID
+    batch_index=0,
+
+    # Step 1.3 — embeddings by layer
+    export_by_layer=True,
+
+    # Step 1.4 — durations + alignment CSV
+    export_durations=True,
+    export_alignment_csv=True,
+    alignment_csv_path="path/to/exports/alignment.csv",
+
+    # Optional debugging export
+    export_postnet_mel=True,
+)
+```
 
 ## Step 5 — Add EmbeddingBias modules (control)
 
