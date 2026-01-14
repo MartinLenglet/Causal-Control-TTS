@@ -24,7 +24,7 @@ cfg.repo_root = fullfile(here, '..');
 cfg.csv_root = fullfile(cfg.repo_root, 'data', 'lists');
 
 % Root directory where you store model output folders (EDIT ME)
-% Example: cfg.models_root = 'D:/Embeddings_Visualization';
+cfg.models_root = fullfile(cfg.repo_root, 'data', 'models');
 
 % Where to write figures/results (EDIT ME if desired)
 cfg.results_root = fullfile(cfg.repo_root, 'results');
@@ -33,13 +33,9 @@ cfg.results_root = fullfile(cfg.repo_root, 'results');
 % Each row: {key, model_output_dir, model_type}
 % model_output_dir must contain TEST%05d_syn.wav and the alignment CSV (cfg.alignment_csv_filename).
 cfg.models_seg = {
-%   'FSE', fullfile(cfg.models_root,'FSE_bias_mean_distrib'), 'fastspeech';
+%   'FSE', fullfile(cfg.repo_root,'results_step_1'), 'fastspeech';
 };
 
-cfg.models_root = fullfile(cfg.repo_root, 'data', 'models');
-
-% Where to write figures/results (EDIT ME if desired)
-cfg.results_root = fullfile(cfg.repo_root, 'results');
 
 % -------------------------------------------------------------------------
 % Model registry (EDIT THESE ENTRIES)
@@ -133,7 +129,7 @@ end
 
 
 % Alignment file produced by your FastSpeech2 inference run (used to build *_seg.csv)
-cfg.alignment_csv_filename = 'alignment_by_utt.csv';  % edit to match your export
+cfg.alignment_csv_filename = 'alignment.csv';  % edit to match your export
 
 % Path to stats_phon_corpus.mat (needed to compute z-scores in *_seg.csv)
 % If empty or missing, z-scores will be set to 0.

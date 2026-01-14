@@ -1,6 +1,6 @@
 nbr_utt = 1000
 
-name_folder_global$ = "/home/lengletm/Documents/Etudes/Encoder_Embeddings/Embeddings_Visualization/"
+name_folder_global$ = "../../results_step_1/"
 list_sub_folders$ = name_folder_global$ + "list_folder_praat_script.txt"
 strings_object = Read Strings from raw text file: list_sub_folders$
 numberOfSubFolder = Get number of strings

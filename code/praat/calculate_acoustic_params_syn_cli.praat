@@ -1,53 +1,63 @@
-"""Batch acoustic-parameter extraction for synthesized wavs.
+#########################################################################################
+#
+# Batch acoustic-parameter extraction for synthesized wavs.
+#
+# Portable wrapper around the original paper script `calculate_acoustic_params_syn.praat`.
+#
+# What it does
+# ------------
+# For each subfolder listed in a text file, this script looks for:
+#   - TEST%05d_syn.wav
+#   - TEST%05d_seg.csv   (tab-separated table)
+# and writes:
+#   - TEST%05d_acoustic_params.csv
+# 
+# The output CSV uses a '|' separator and the exact header expected by the MATLAB
+# loader `matlab/load_acoustic_params.m`.
+#
+# How to run (examples)
+# ---------------------
+# Linux:
+#   praat --run praat/calculate_acoustic_params_syn_cli.praat \
+#     /abs/path/to/Embeddings_Visualization \
+#     praat/lists/list_folder_praat_script.txt \
+#     1000 1
+#
+# macOS:
+#   /Applications/Praat.app/Contents/MacOS/Praat --run praat/calculate_acoustic_params_syn_cli.praat \
+#     /abs/path/to/Embeddings_Visualization \
+#     praat/lists/list_folder_praat_script.txt \
+#     1000 1
+#
+# Windows (PowerShell):
+#   & 'C:\\Program Files\\Praat.exe' --run praat\calculate_acoustic_params_syn_cli.praat `
+#     'C:\\path\\to\\Embeddings_Visualization' `
+#     'praat\\lists\\list_folder_praat_script.txt' `
+#     1000 1
+#
+# Arguments
+# ---------
+# 1) base_folder: directory containing the subfolders listed in list_file
+# 2) list_file: raw text file, one subfolder per line (relative to base_folder)
+# 3) nbr_utt: number of utterances to iterate (e.g., 1000)
+# 4) is_male: 1 for male pitch settings, 0 for female
+#
+#########################################################################################
 
-Portable wrapper around the original paper script `calculate_acoustic_params_syn.praat`.
-
-What it does
-------------
-For each subfolder listed in a text file, this script looks for:
-  - TEST%05d_syn.wav
-  - TEST%05d_seg.csv   (tab-separated table)
-and writes:
-  - TEST%05d_acoustic_params.csv
-
-The output CSV uses a '|' separator and the exact header expected by the MATLAB
-loader `matlab/load_acoustic_params.m`.
-
-How to run (examples)
----------------------
-macOS/Linux:
-  praat --run praat/calculate_acoustic_params_syn_cli.praat \
-    /abs/path/to/Embeddings_Visualization \
-    praat/lists/list_folder_praat_script.txt \
-    1000 1
-
-Windows (PowerShell):
-  & 'C:\\Program Files\\Praat.exe' --run praat\calculate_acoustic_params_syn_cli.praat `
-    'C:\\path\\to\\Embeddings_Visualization' `
-    'praat\\lists\\list_folder_praat_script.txt' `
-    1000 1
-
-Arguments
----------
-1) base_folder: directory containing the subfolders listed in list_file
-2) list_file: raw text file, one subfolder per line (relative to base_folder)
-3) nbr_utt: number of utterances to iterate (e.g., 1000)
-4) is_male: 1 for male pitch settings, 0 for female
-"""
 
 form Batch extraction settings
-    sentence base_folder /path/to/Embeddings_Visualization
-    sentence list_file praat/lists/list_folder_praat_script.txt
-    positive nbr_utt 1000
-    boolean is_male 1
+    sentence: "base_folder", "../"
+    sentence: "list_file", "lists/list_folder_praat_script_results_step_1.txt"
+    positive nbr_utt 1
+    boolean: "is_male", 1
 endform
 
-name_folder_global$ = base_folder
+name_folder_global$ = base_folder$
 if right$ (name_folder_global$, 1) <> "/"
     name_folder_global$ = name_folder_global$ + "/"
 endif
 
-list_sub_folders$ = list_file
+list_sub_folders$ = list_file$
 strings_object = Read Strings from raw text file: list_sub_folders$
 numberOfSubFolder = Get number of strings
 
