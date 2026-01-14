@@ -9,7 +9,7 @@ This repository provides the analysis pipeline used in the paper, across **three
 ## Repository structure
 
 - `python/` — reference modules and patch instructions for FastSpeech2 (intermediate states + embedding bias).
-  - `python/results_step_1/` — **example output of Step 1 (Python)** for a single utterance, provided as a reference to validate file formats, naming conventions, and data shapes.
+  - `results_step_1/` — **example output of Step 1 (Python)** for a single utterance, provided as a reference to validate file formats, naming conventions, and data shapes.
 - `matlab/` — all MATLAB scripts (entry scripts + helpers). **All model paths are configured in one file:** `matlab/config_paths.m`.
 - `praat/` — Praat scripts + list files to compute acoustic parameters.
 
