@@ -30,6 +30,18 @@ For each utterance, written into the same model output folder:
 
 This file is `|`-separated and contains the acoustic parameters required by the MATLAB analyses.
 
+
+## Quick start with results_step_1
+
+Run:
+
+```bash
+praat --run praat/calculate_acoustic_params_syn_cli.praat \
+  ../ \
+  lists/list_folder_praat_script_results_step_1.txt \
+  1 1
+```
+
 ## Batch run
 
 ### macOS / Linux
