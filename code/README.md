@@ -44,7 +44,7 @@ Output of Step 1 (per model output folder):
 - `<alignment csv>` (filename set by `cfg.alignment_csv_filename` in Step 2)
 
 An **example of the expected output of Step 1** (single utterance, fully compliant with the pipeline) is provided in:
-- `python/results_step_1/`
+- `results_step_1/`
 
 This example can be used to:
 - inspect the expected `.mat` variable names and shapes,
